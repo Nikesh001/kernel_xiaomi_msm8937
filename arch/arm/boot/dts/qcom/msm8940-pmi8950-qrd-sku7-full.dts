@@ -6172,8 +6172,8 @@
 			dma-names = "tx", "rx";
 			status = "ok";
 
-			ftech@38 {
-				compatible = "focaltech,5336";
+			focaltech@38 {
+				compatible = "focaltech,5x06";
 				reg = <0x38>; // 38
 				interrupt-parent = <0xa7>; // a7
 				interrupts = <0x41 0x2008>;
@@ -6183,29 +6183,30 @@
 				pinctrl-0 = <0xd0 0xd1>; // d0 d1
 				pinctrl-1 = <0xd2 0xd3>; // d2 d3
 				pinctrl-2 = <0xd4>; // d4
-				ftech,name = "ft5336";
-				ftech,family-id = <0x36>;
-				ftech,reset-gpio = <0xa7 0x40 0x0>; //a7
-				ftech,irq-gpio = <0xa7 0x41 0x2008>; //a7
-				ftech,display-coords = <0x0 0x0 0x2d0 0x500>;
-				ftech,panel-coords = <0x0 0x0 0x2d0 0x500>;
-				ftech,virtual-key1 = <0x8b 0x8c 0x7d0>; //menu
-				ftech,virtual-key2 = <0xac 0x168 0x7d0>; //home
-				ftech,virtual-key3 = <0x9e 0x244 0x7d0>; //back
-				ftech,no-force-update;
-				ftech,i2c-pull-up;
-				ftech,group-id = <0x1>;
-				ftech,hard-reset-delay-ms = <0x14>;
-				ftech,soft-reset-delay-ms = <0xc8>;
-				ftech,num-max-touches = <0xa>;
-				ftech,fw-delay-aa-ms = <0x1e>;
-				ftech,fw-delay-55-ms = <0x1e>;
-				ftech,fw-upgrade-id1 = <0x79>;
-				ftech,fw-upgrade-id2 = <0x18>;
-				ftech,fw-delay-readid-ms = <0xa>;
-				ftech,fw-delay-era-flsh-ms = <0x7d0>;
-				ftech,fw-auto-cal;
-				ftech,ignore-id-check;
+				focaltech,name = "ft5336";
+				focaltech,family-id = <0x36>;
+				focaltech,reset-gpio = <0xa7 0x40 0x0>; //a7
+				focaltech,irq-gpio = <0xa7 0x41 0x2008>; //a7
+				focaltech,display-coords = <0x0 0x0 0x2d0 0x500>;
+				focaltech,panel-coords = <0x0 0x0 0x2d0 0x500>;
+				focaltech,virtual-key1 = <0x8b 0x8c 0x7d0>; //menu
+				focaltech,virtual-key2 = <0xac 0x168 0x7d0>; //home
+				focaltech,virtual-key3 = <0x9e 0x244 0x7d0>; //back
+				// focaltech,fw-vkey-support;			
+				focaltech,no-force-update;
+				focaltech,i2c-pull-up;
+				focaltech,group-id = <0x1>;
+				focaltech,hard-reset-delay-ms = <0x14>;
+				focaltech,soft-reset-delay-ms = <0xc8>;
+				focaltech,num-max-touches = <0xa>;
+				focaltech,fw-delay-aa-ms = <0x1e>;
+				focaltech,fw-delay-55-ms = <0x1e>;
+				focaltech,fw-upgrade-id1 = <0x79>;
+				focaltech,fw-upgrade-id2 = <0x18>;
+				focaltech,fw-delay-readid-ms = <0xa>;
+				focaltech,fw-delay-era-flsh-ms = <0x7d0>;
+				focaltech,fw-auto-cal;
+				focaltech,ignore-id-check;
 			};
 
 			synaptics@4b {

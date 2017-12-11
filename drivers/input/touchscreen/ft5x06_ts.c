@@ -2394,12 +2394,22 @@ static int ft5x06_ts_probe(struct i2c_client *client,
 
 	/* check the controller id */
 	reg_addr = FT_REG_ID;
-	err = ft5x06_i2c_read(client, &reg_addr, 1, &reg_value, 1);
-	if (err < 0) {
-		dev_err(&client->dev, "version read failed");
-		goto free_gpio;
-	}
 
+	do { //Search for the correct register.
+ 		err = ft5x06_i2c_read(client, &reg_addr, 1, &reg_value, 1);
+ 		if (err < 0) {
+ 			dev_err(&client->dev, "version read failed");
+ 			//goto free_reset_gpio;
+ 		}
+ 		if(reg_value!=0x14){
+ 		 	client->addr = client->addr + 0x1;
+ 		}else{
+ 			dev_info(&client->dev, "Touchpanel Register found: 0x%x\n",client->addr);
+ 			break;
+ 		}
+#if defined(CONFIG_FOCALTECH_5336) //We can support more than one TP	
+ 	}while(reg_value!=0x14);//We expect it to be 0x14 for FT5336	
+#endif
 	dev_info(&client->dev, "Device ID = 0x%x\n", reg_value);
 
 	if ((pdata->family_id != reg_value) && (!pdata->ignore_id_check)) {
