@@ -6192,7 +6192,7 @@
 				focaltech,virtual-key1 = <0x8b 0x8c 0x7d0>; //menu
 				focaltech,virtual-key2 = <0xac 0x168 0x7d0>; //home
 				focaltech,virtual-key3 = <0x9e 0x244 0x7d0>; //back
-				// focaltech,fw-vkey-support;			
+				focaltech,button-map = <0x8b 0xac 0x9e>;			
 				focaltech,no-force-update;
 				focaltech,i2c-pull-up;
 				focaltech,group-id = <0x1>;
@@ -11455,7 +11455,7 @@
 
 		gen-vkey1 {
 			compatible = "qcom,gen-vkeys";
-			label = "ft5x06_720p";
+			label = "ft5x06_ts";
 			qcom,disp-maxx = <0x2d0>;
 			qcom,disp-maxy = <0x500>;
 			qcom,panel-maxx = <0x2d0>;
