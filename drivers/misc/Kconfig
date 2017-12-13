@@ -612,6 +612,11 @@ config MEMORY_STATE_TIME
 	depends on PROFILING
 	help
 	  Memory time statistics exported to /sys/kernel/memory_state_time
+config AW87319
+	bool "AW87319 Ext. Speaker Amp."
+	default n
+	help
+	  Enables external speaker amp. If unsure say 'n'.
 
 source "drivers/misc/c2port/Kconfig"
 source "drivers/misc/eeprom/Kconfig"
