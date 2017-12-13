@@ -6173,7 +6173,7 @@
 			status = "ok";
 
 			focaltech@38 {
-				compatible = "focaltech,5x06";
+				compatible = "focaltech,5336";
 				reg = <0x38>; // 38
 				interrupt-parent = <0xa7>; // a7
 				interrupts = <0x41 0x2008>;
@@ -6192,6 +6192,7 @@
 				focaltech,virtual-key1 = <0x8b 0x8c 0x7d0>; //menu
 				focaltech,virtual-key2 = <0xac 0x168 0x7d0>; //home
 				focaltech,virtual-key3 = <0x9e 0x244 0x7d0>; //back
+				//focaltech,fw-vkey-support;
 				focaltech,button-map = <0x8b 0xac 0x9e>;			
 				focaltech,no-force-update;
 				focaltech,i2c-pull-up;
@@ -6212,6 +6213,17 @@
 			synaptics@4b {
 				vdd-supply = <0xcd>;
 			};
+		};
+		//Prueba inicial
+		gen-vkey {
+			compatible = "qcom,gen-vkeys";
+			label = "ft5x06_720p";
+			qcom,disp-maxx = <720>; //<0x2d0>;
+			qcom,disp-maxy = <1280>; //<0x500>;
+			qcom,panel-maxx = <720>; //<0x2d0>;
+			qcom,panel-maxy = <1458>; //<0x5b2>;
+			qcom,key-codes = <139 172 158>; //<0x8b 0xac 0x9e>;
+			qcom,y-offset = <0>; //<0x0>;
 		};
 
 		i2c@7af5000 {
@@ -8630,6 +8642,7 @@
 					qcom,wave-samples = <0x3e3e3e3e 0x3e3e3e3e>;
 					qcom,wave-rep-cnt = <0x1>;
 					qcom,wave-samp-rep-cnt = <0x1>;
+					qcom,pmic-revid = <0x111>;
 				};
 			};
 		};
@@ -11453,16 +11466,16 @@
 			phandle = <0x138>;
 		};
 
-		gen-vkey1 {
-			compatible = "qcom,gen-vkeys";
-			label = "ft5x06_ts";
-			qcom,disp-maxx = <0x2d0>;
-			qcom,disp-maxy = <0x500>;
-			qcom,panel-maxx = <0x2d0>;
-			qcom,panel-maxy = <0x5b2>;
-			qcom,key-codes = <0x8b 0xac 0x9e>;
-			qcom,y-offset = <0x0>;
-		};
+		//gen-vkey {
+		//	compatible = "qcom,gen-vkeys";
+		//	label = "ft5x06_ts";
+		//	qcom,disp-maxx = <0x2d0>;
+		//	qcom,disp-maxy = <0x500>;
+		//	qcom,panel-maxx = <0x2d0>;
+		//	qcom,panel-maxy = <0x5b2>;
+		//	qcom,key-codes = <0x8b 0xac 0x9e>;
+		//	qcom,y-offset = <0x0>;
+		//};
 
 		fpc1020 {
 			compatible = "soc:fpc1020";

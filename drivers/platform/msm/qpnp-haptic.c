@@ -2490,6 +2490,7 @@ static int qpnp_hap_parse_dt(struct qpnp_hap *hap)
 	return 0;
 }
 
+
 static int qpnp_hap_get_pmic_revid(struct qpnp_hap *hap)
 {
 	struct pmic_revid_data *pmic_rev_id;
@@ -2505,11 +2506,11 @@ static int qpnp_hap_get_pmic_revid(struct qpnp_hap *hap)
 	if (IS_ERR_OR_NULL(pmic_rev_id)) {
 		pr_err("Unable to get pmic_revid rc=%ld\n",
 						PTR_ERR(pmic_rev_id));
-		/*
-		 * the revid peripheral must be registered, any failure
-		 * here only indicates that the rev-id module has not
-		 * probed yet.
-		 */
+		// *
+		// * the revid peripheral must be registered, any failure
+		// * here only indicates that the rev-id module has not
+		// * probed yet.
+		// *
 		return -EPROBE_DEFER;
 	}
 
@@ -2517,6 +2518,8 @@ static int qpnp_hap_get_pmic_revid(struct qpnp_hap *hap)
 
 	return 0;
 }
+
+
 
 static int qpnp_haptic_probe(struct spmi_device *spmi)
 {

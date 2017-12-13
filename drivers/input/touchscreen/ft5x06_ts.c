@@ -2754,7 +2754,7 @@ MODULE_DEVICE_TABLE(i2c, ft5x06_ts_id);
 
 #ifdef CONFIG_OF
 static struct of_device_id ft5x06_match_table[] = {
-	{ .compatible = "focaltech,5x06",},
+	{ .compatible = "focaltech,5336",},
 	{ },
 };
 #else
@@ -2765,7 +2765,7 @@ static struct i2c_driver ft5x06_ts_driver = {
 	.probe = ft5x06_ts_probe,
 	.remove = ft5x06_ts_remove,
 	.driver = {
-		   .name = "ft5x06_ts",
+		   .name = "ft5x06_720p",
 		   .owner = THIS_MODULE,
 		.of_match_table = ft5x06_match_table,
 #ifdef CONFIG_PM

@@ -125,7 +125,8 @@ static int vkeys_probe(struct platform_device *pdev)
 	int width, height, center_x, center_y;
 	int x1 = 0, x2 = 0, i, c = 0, ret, border;
 	char *name;
-
+	
+	dev_err(&pdev->dev, "\n\ngen_vkeys: BITRVMPD ===========\n");
 	vkey_buf = devm_kzalloc(&pdev->dev, MAX_BUF_SIZE, GFP_KERNEL);
 	if (!vkey_buf) {
 		dev_err(&pdev->dev, "Failed to allocate memory\n");
@@ -195,6 +196,7 @@ static int vkeys_probe(struct platform_device *pdev)
 		dev_err(&pdev->dev, "failed to create attributes\n");
 		goto destroy_kobj;
 	}
+	dev_err(&pdev->dev, "\n\nBITRVMPD ======= COMPLETED! ====\n");
 	return 0;
 
 destroy_kobj:

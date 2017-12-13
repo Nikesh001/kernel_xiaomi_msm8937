@@ -660,6 +660,7 @@ static int qpnp_get_pmic_revid(struct qpnp_flash_led *led)
 	return 0;
 }
 
+
 static int
 qpnp_flash_led_get_max_avail_current(struct flash_node_data *flash_node,
 					struct qpnp_flash_led *led)
