@@ -6173,7 +6173,7 @@
 			status = "ok";
 
 			focaltech@38 {
-				compatible = "focaltech,5336";
+				compatible = "focaltech,5x06"; //Our tp is FT5336
 				reg = <0x38>; // 38
 				interrupt-parent = <0xa7>; // a7
 				interrupts = <0x41 0x2008>;
@@ -6217,7 +6217,7 @@
 		//Prueba inicial
 		gen-vkey {
 			compatible = "qcom,gen-vkeys";
-			label = "ft5x06_720p";
+			label = "ft5x06_ts";
 			qcom,disp-maxx = <720>; //<0x2d0>;
 			qcom,disp-maxy = <1280>; //<0x500>;
 			qcom,panel-maxx = <720>; //<0x2d0>;

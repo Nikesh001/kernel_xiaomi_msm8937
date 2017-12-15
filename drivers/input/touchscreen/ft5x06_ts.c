@@ -907,7 +907,8 @@ static irqreturn_t ft5x06_ts_interrupt(int irq, void *dev_id)
 		if (!num_touches && !status && !id)
 			break;
 
-#if defined(CONFIG_FOCALTECH_5336) //Fixes nav-keys
+#if defined(CONFIG_FOCALTECH_5336)
+		//Fixes nav-keys 
 		if (y == 2000) {
 			y = 1344;
 			
@@ -2333,8 +2334,9 @@ static int ft5x06_ts_probe(struct i2c_client *client,
 	data->input_dev = input_dev;
 	data->client = client;
 	data->pdata = pdata;
-
-	input_dev->name = "ft5x06_ts";
+	
+	
+	input_dev->name="ft5x06_ts";
 	input_dev->id.bustype = BUS_I2C;
 	input_dev->dev.parent = &client->dev;
 
@@ -2774,7 +2776,7 @@ MODULE_DEVICE_TABLE(i2c, ft5x06_ts_id);
 
 #ifdef CONFIG_OF
 static struct of_device_id ft5x06_match_table[] = {
-	{ .compatible = "focaltech,5336",},
+	{ .compatible = "focaltech,5x06",},
 	{ },
 };
 #else
@@ -2785,7 +2787,7 @@ static struct i2c_driver ft5x06_ts_driver = {
 	.probe = ft5x06_ts_probe,
 	.remove = ft5x06_ts_remove,
 	.driver = {
-		   .name = "ft5x06_720p",
+		   .name = "ft5x06_ts",
 		   .owner = THIS_MODULE,
 		.of_match_table = ft5x06_match_table,
 #ifdef CONFIG_PM
