@@ -907,6 +907,26 @@ static irqreturn_t ft5x06_ts_interrupt(int irq, void *dev_id)
 		if (!num_touches && !status && !id)
 			break;
 
+#if defined(CONFIG_FOCALTECH_5336) //Fixes nav-keys
+		if (y == 2000) {
+			y = 1344;
+			
+			switch (x) {
+			case 180:
+				x = 150;
+				break;
+			case 540:
+				x = 360;
+				break;
+			case 900:
+				x = 580;
+				break;
+			default:
+				break;
+			}
+		}
+#endif
+
 		input_mt_slot(ip_dev, id);
 		if (status == FT_TOUCH_DOWN || status == FT_TOUCH_CONTACT) {
 			input_mt_report_slot_state(ip_dev, MT_TOOL_FINGER, 1);
