@@ -615,13 +615,11 @@ static long msm_ois_subdev_ioctl(struct v4l2_subdev *sd,
 			pr_err("o_ctrl->i2c_client.i2c_func_tbl NULL\n");
 			return -EINVAL;
 		}
-		mutex_lock(o_ctrl->ois_mutex);
 		rc = msm_ois_power_down(o_ctrl);
 		if (rc < 0) {
 			pr_err("%s:%d OIS Power down failed\n",
 				__func__, __LINE__);
 		}
-		mutex_unlock(o_ctrl->ois_mutex);
 		return msm_ois_close(sd, NULL);
 	default:
 		return -ENOIOCTLCMD;
@@ -776,10 +774,11 @@ static long msm_ois_subdev_do_ioctl(
 	u32 = (struct msm_ois_cfg_data32 *)arg;
 	parg = arg;
 
+	ois_data.cfgtype = u32->cfgtype;
+
 	switch (cmd) {
 	case VIDIOC_MSM_OIS_CFG32:
 		cmd = VIDIOC_MSM_OIS_CFG;
-		ois_data.cfgtype = u32->cfgtype;
 
 		switch (u32->cfgtype) {
 		case CFG_OIS_CONTROL:
@@ -813,6 +812,7 @@ static long msm_ois_subdev_do_ioctl(
 			settings.reg_setting =
 				compat_ptr(settings32.reg_setting);
 
+			ois_data.cfgtype = u32->cfgtype;
 			ois_data.cfg.settings = &settings;
 			parg = &ois_data;
 			break;
@@ -820,10 +820,6 @@ static long msm_ois_subdev_do_ioctl(
 			parg = &ois_data;
 			break;
 		}
-		break;
-	case VIDIOC_MSM_OIS_CFG:
-		pr_err("%s: invalid cmd 0x%x received\n", __func__, cmd);
-		return -EINVAL;
 	}
 	rc = msm_ois_subdev_ioctl(sd, cmd, parg);
 
@@ -893,16 +889,15 @@ static int32_t msm_ois_platform_probe(struct platform_device *pdev)
 
 	rc = msm_sensor_driver_get_gpio_data(&(msm_ois_t->gconf),
 		(&pdev->dev)->of_node);
-	if (-ENODEV == rc) {
-		pr_notice("No valid OIS GPIOs data\n");
-	} else if (rc < 0) {
-		pr_err("Error OIS GPIO\n");
+	if (rc < 0) {
+		pr_err("%s: No/Error OIS GPIO\n", __func__);
 	} else {
 		msm_ois_t->cam_pinctrl_status = 1;
 		rc = msm_camera_pinctrl_init(
 			&(msm_ois_t->pinctrl_info), &(pdev->dev));
 		if (rc < 0) {
-			pr_err("ERR: Error in reading OIS pinctrl\n");
+			pr_err("ERR:%s: Error in reading OIS pinctrl\n",
+				__func__);
 			msm_ois_t->cam_pinctrl_status = 0;
 		}
 	}
