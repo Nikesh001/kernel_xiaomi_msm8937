@@ -203,7 +203,7 @@ static void gpio_ir_tx_ndelay(unsigned long nsecs)
 	unsigned long max_delay_ns = NSEC_PER_MSEC * MAX_UDELAY_MS;
 
 	while (nsecs > max_delay_ns) {
-		ndelay(max_delay_ns);
+		msleep(max_delay_ns / 1000000UL);
 		nsecs -= max_delay_ns;
 	}
 	ndelay(nsecs);
@@ -296,7 +296,7 @@ err_regulator_enable:
 	return rc;
 }
 
-static int __devinit gpio_ir_tx_probe(struct gpio_ir_dev *gdev)
+static int gpio_ir_tx_probe(struct gpio_ir_dev *gdev)
 {
 	struct gpio_ir_data *gdata = gdev->pdev->dev.platform_data;
 	int rc = 0;
@@ -466,7 +466,7 @@ static irqreturn_t gpio_ir_rx_irq(int irq, void *dev)
 	return IRQ_HANDLED;
 }
 
-static int __devinit gpio_ir_rx_probe(struct gpio_ir_dev *gdev)
+static int gpio_ir_rx_probe(struct gpio_ir_dev *gdev)
 {
 	struct gpio_ir_data *gdata = gdev->pdev->dev.platform_data;
 	unsigned long flags;
@@ -613,7 +613,7 @@ static const struct dev_pm_ops gpio_ir_pm_ops = {
 #endif
 
 /* code for probe and remove */
-static int __devinit gpio_ir_probe(struct platform_device *pdev)
+static int gpio_ir_probe(struct platform_device *pdev)
 {
 	struct gpio_ir_data *gdata;
 	struct gpio_ir_dev *gdev;
@@ -648,7 +648,7 @@ static int __devinit gpio_ir_probe(struct platform_device *pdev)
 
 				dev_info(&pdev->dev,
 					 "rx-reg-id = %s, rx-gpio-nr = %d, rx-high-active = %d, rx-soft-carrier = %d, "
-					 "rx-init-protos = %d, rx-can-wakeup = %d, rx-map-name = %d\n",
+					 "rx-init-protos = %llu, rx-can-wakeup = %d, rx-map-name = %s\n",
 					  gdata->rx_reg_id, gdata->rx_gpio_nr, gdata->rx_high_active, gdata->rx_soft_carrier,
 					  gdata->rx_init_protos, gdata->rx_can_wakeup, gdata->rx_map_name);
 			}
@@ -682,7 +682,7 @@ static int __devinit gpio_ir_probe(struct platform_device *pdev)
 	gdev->rdev->driver_name      = GPIO_IR_NAME;
 	gdev->rdev->map_name         = gdata->rx_map_name;
 	gdev->rdev->driver_type      = RC_DRIVER_IR_RAW;
-	gdev->rdev->allowed_protos   = gdata->rx_init_protos;
+	gdev->rdev->allowed_protocols   = gdata->rx_init_protos;
 	gdev->rdev->priv             = gdev;
 	gdev->rdev->open             = gpio_ir_open;
 	gdev->rdev->close            = gpio_ir_close;
@@ -714,7 +714,7 @@ err_rc_allocate_device:
 	return rc;
 }
 
-static int __devexit gpio_ir_remove(struct platform_device *pdev)
+static int gpio_ir_remove(struct platform_device *pdev)
 {
 	struct gpio_ir_dev *gdev = platform_get_drvdata(pdev);
 
@@ -734,7 +734,7 @@ static const struct of_device_id of_gpio_ir_match[] = {
 
 static struct platform_driver gpio_ir_driver = {
 	.probe  = gpio_ir_probe,
-	.remove = __devexit_p(gpio_ir_remove),
+	.remove = gpio_ir_remove,
 	.driver = {
 		.name  = GPIO_IR_NAME,
 		.owner = THIS_MODULE,
