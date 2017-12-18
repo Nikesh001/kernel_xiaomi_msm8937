@@ -55,6 +55,13 @@
 static irqreturn_t ft5x06_ts_interrupt(int irq, void *data);
 #endif
 
+#if defined(CONFIG_FOCALTECH_5336)
+//Required to get tp_color
+#define FT_LOCKDOWN_SIZE        8
+static u8 lockdown_info[FT_LOCKDOWN_SIZE];
+extern u8 tp_color;
+#endif
+
 #define FT_DRIVER_VERSION	0x02
 
 #define FT_META_REGS		3
@@ -2279,6 +2286,9 @@ static int ft5x06_ts_probe(struct i2c_client *client,
 	u8 reg_value = 0;
 	u8 reg_addr;
 	int err, len, retval, attr_count;
+#if defined(CONFIG_FOCALTECH_5336)
+	u8 buf[128];
+#endif
 
 	if (client->dev.of_node) {
 		pdata = devm_kzalloc(&client->dev,
@@ -2621,6 +2631,17 @@ static int ft5x06_ts_probe(struct i2c_client *client,
 			data->fw_ver[1], data->fw_ver[2]);
 	FT_STORE_TS_INFO(ts_info_buff, data->family_id, data->fw_ver[0],
 			 data->fw_ver[1], data->fw_ver[2]);
+#if defined(CONFIG_FOCALTECH_5336)
+	buf[0] = 0x03;
+        buf[1] = 0x00;
+        buf[2] = (u8) (0x07d0 >> 8);
+        buf[3] = (u8) (0x07d0);
+
+	ft5x06_i2c_read(client, buf, 4, lockdown_info, 8);
+	msleep(10);
+	printk(KERN_ERR "Bitrvmpd tp_color: %d" , lockdown_info[2]);
+	tp_color = lockdown_info[2];
+#endif
 #if defined(CONFIG_FB)
 	INIT_WORK(&data->fb_notify_work, fb_notify_resume_work);
 	data->fb_notif.notifier_call = fb_notifier_callback;
