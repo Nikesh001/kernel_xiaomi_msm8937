@@ -5,15 +5,21 @@
 #include <linux/notifier.h>
 #include <linux/wakelock.h>
 /**********************************************************/
-enum FP_MODE { GF_IMAGE_MODE =
-	   0, GF_KEY_MODE, GF_SLEEP_MODE, GF_FF_MODE, GF_DEBUG_MODE =
-	   0x56
+enum FP_MODE{
+	GF_IMAGE_MODE = 0,
+	GF_KEY_MODE,
+	GF_SLEEP_MODE,
+	GF_FF_MODE,
+	GF_DEBUG_MODE = 0x56
 };
+
 struct gf_key {
 	unsigned int key;
 	int value;
 };
-struct gf_key_map  {
+
+
+struct gf_key_map {
 	char *name;
 	unsigned short val;
 };
@@ -40,28 +46,30 @@ struct gf_key_map  {
 #define GF_NET_EVENT_IRQ 0
 #define GF_NET_EVENT_FB_BLACK 1
 #define GF_NET_EVENT_FB_UNBLACK 2
-static const char *const pctl_names[] = {
-	"goodixfp_reset_reset", "goodixfp_reset_active",
-	   "goodixfp_irq_active",
+
+
+static const char * const pctl_names[] = {
+	"goodixfp_reset_reset",
+	"goodixfp_reset_active",
+	"goodixfp_irq_active",
 };
+
 
 struct gf_dev {
 	dev_t devt;
 	struct list_head device_entry;
-
 #if defined(USE_SPI_BUS)
 	struct spi_device *spi;
-
 #elif defined(USE_PLATFORM_BUS)
 	struct platform_device *spi;
-
 #endif
 	struct clk *core_clk;
 	struct clk *iface_clk;
+
 	struct pinctrl *fingerprint_pinctrl;
 	struct pinctrl_state *pinctrl_state[ARRAY_SIZE(pctl_names)];
-	struct input_dev *input;
 
+	struct input_dev *input;
 	/* buffer is NULL unless this device is open (users > 0) */
 	unsigned users;
 	signed irq_gpio;
@@ -70,24 +78,25 @@ struct gf_dev {
 	int irq;
 	int irq_enabled;
 	int clk_enabled;
-
 #ifdef GF_FASYNC
 	struct fasync_struct *async;
-
 #endif
 	struct notifier_block notifier;
 	char device_available;
 	char fb_black;
 	struct wake_lock ttw_wl;
 };
+
 int gf_parse_dts(struct gf_dev *gf_dev);
 void gf_cleanup(struct gf_dev *gf_dev);
+
 int gf_power_on(struct gf_dev *gf_dev);
 int gf_power_off(struct gf_dev *gf_dev);
+
 int gf_hw_reset(struct gf_dev *gf_dev, unsigned int delay_ms);
 int gf_irq_num(struct gf_dev *gf_dev);
+
 void sendnlmsg(char *message);
 int netlink_init(void);
 void netlink_exit(void);
-
-#endif
+#endif /*__GF_SPI_H*/
