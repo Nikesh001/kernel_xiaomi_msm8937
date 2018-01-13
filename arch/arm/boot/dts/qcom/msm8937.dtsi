@@ -49,8 +49,8 @@
 
 			};
 		};
-	};
-
+	};	
+	
 	reserved-memory {
 		#address-cells = <2>;
 		#size-cells = <2>;
@@ -59,25 +59,25 @@
 		other_ext_mem: other_ext_region@0 {
 			compatible = "removed-dma-pool";
 			no-map;
-			reg = <0x0 0x85b00000 0x0 0xd00000>;
+			reg = <0x0 0x84a00000 0x0 0x1e00000>;
 		};
 
 		modem_mem: modem_region@0 {
 			compatible = "removed-dma-pool";
-			no-map;
-			reg = <0x0 0x86800000 0x0 0x5000000>;
+			no-map-fixup;
+			reg = <0x0 0x86800000 0x0 0x6a00000>;
 		};
 
 		adsp_fw_mem: adsp_fw_region@0 {
 			compatible = "removed-dma-pool";
 			no-map;
-			reg = <0x0 0x8b800000 0x0 0x1100000>;
+			reg = <0x0 0x8d200000 0x0 0x1100000>;
 		};
 
 		wcnss_fw_mem: wcnss_fw_region@0 {
 			compatible = "removed-dma-pool";
 			no-map;
-			reg = <0x0 0x8c900000 0x0 0x700000>;
+			reg = <0x0 0x8e300000 0x0 0x700000>;
 		};
 
 
@@ -542,6 +542,7 @@
 			pericom,enb-gpio = <&tlmm 131 0x1>;	/* active low */
 			pinctrl-names = "default";
 			pinctrl-0 = <&usbc_int_default>;
+			status = "disabled";
 		};
 
 		/* DSI_TO_HDMI I2C configuration */
@@ -575,7 +576,7 @@
 		reg = <0x78b7000 0x600>;
 		interrupt-names = "qup_irq";
 		interrupts = <0 97 0>;
-		qcom,clk-freq-out = <400000>;
+		qcom,clk-freq-out = <100000>;
 		qcom,clk-freq-in  = <19200000>;
 		clock-names = "iface_clk", "core_clk";
 		clocks = <&clock_gcc clk_gcc_blsp1_ahb_clk>,
@@ -590,7 +591,7 @@
 		dmas = <&dma_blsp1 8 64 0x20000020 0x20>,
 			<&dma_blsp1 9 32 0x20000020 0x20>;
 		dma-names = "tx", "rx";
-		status = "disabled";
+		status = "ok";
 	};
 
 	i2c_5: i2c@7af5000 { /* BLSP2 QUP1 */
@@ -1104,13 +1105,13 @@
 		clocks = <&clock_gcc clk_xo_wlan_clk>,
 			 <&clock_gcc clk_rf_clk2>,
 			 <&clock_debug clk_gcc_debug_mux_8937>,
-			 <&clock_gcc clk_wcnss_m_clk>,
-			 <&clock_gcc clk_snoc_wcnss_a_clk>;
+			 <&clock_gcc clk_wcnss_m_clk>;
+			 //<&clock_gcc clk_snoc_wcnss_a_clk>;
 
-		clock-names = "xo", "rf_clk", "measure", "wcnss_debug",
-				"snoc_wcnss";
+		clock-names = "xo", "rf_clk", "measure", "wcnss_debug";
+				//"snoc_wcnss";
 
-		qcom,snoc-wcnss-clock-freq = <200000000>;
+		//qcom,snoc-wcnss-clock-freq = <200000000>;
 
 		qcom,has-autodetect-xo;
 		qcom,is-pronto-v3;
@@ -1171,6 +1172,8 @@
 				"xo";
 		qcom,bus-clk-rate = <748800000 200000000 100000000>;
 		qcom,max-nominal-sysclk-rate = <133330000>;
+		//qcom,usbin-vadc = <&pm8937_vadc>;
+		qcom,usbin-vadc = <&pmi8950_vadc>;
 
 		qcom,usbbam@78c4000 {
 			compatible = "qcom,usb-bam-msm";
@@ -1271,6 +1274,18 @@
 		compatible = "qcom,jtag-fuse-v2";
 		reg = <0xa601c 0x8>;
 		reg-names = "fuse-base";
+	};
+
+	sn_fuse: snfuse@0xa0128 {
+		compatible = "qcom,sn-fuse";
+		reg = <0xa0128 0x4>;
+		reg-names = "sn-base";
+	};
+
+	sec_boot_fuse: secbootfuse@0xa41d0 {
+		compatible = "qcom,sec-boot-fuse";
+		reg = <0xa41d0 0x4>;
+		reg-names = "sec-boot-base";
 	};
 
 	jtag_mm0: jtagmm@61bc000 {
@@ -1552,9 +1567,9 @@
 		qcom,ce-opp-freq = <100000000>;
 	};
 
-	qcom_seecom: qseecom@85b00000 {
+	qcom_seecom: qseecom@84A00000 {
 		compatible = "qcom,qseecom";
-		reg = <0x85b00000 0x800000>;
+		reg = <0x84A00000 0x1900000>;
 		reg-names = "secapp-region";
 		qcom,hlos-num-ce-hw-instances = <1>;
 		qcom,hlos-ce-hw-instance = <0>;

@@ -208,14 +208,16 @@
 			qcom,chg-inhibit-fg;
 			qcom,rparasitic-uohm = <100000>;
 			qcom,bms-psy-name = "bms";
-			qcom,thermal-mitigation = <1500 700 600 0>;
+			qcom,thermal-mitigation = <2000 1500 1200 700 0>;
 			qcom,parallel-usb-min-current-ma = <1400>;
 			qcom,parallel-usb-9v-min-current-ma = <900>;
 			qcom,parallel-allowed-lowering-ma = <500>;
 			qcom,pmic-revid = <&pmi8950_revid>;
 			qcom,force-aicl-rerun;
 			qcom,aicl-rerun-period-s = <180>;
-			qcom,autoadjust-vfloat;
+			//qcom,autoadjust-vfloat;
+			qcom,vchg_sns-vadc = <0xf8>;
+			qcom,vchg-adc-channel-id = <0x3>;
 
 			qcom,chgr@1000 {
 				reg = <0x1000 0x100>;
@@ -317,14 +319,17 @@
 			compatible = "qcom,qpnp-fg";
 			#address-cells = <1>;
 			#size-cells = <1>;
-			qcom,resume-soc = <95>;
+			qcom,resume-soc = <99>;
 			status = "okay";
 			qcom,bcl-lm-threshold-ma = <127>;
 			qcom,bcl-mh-threshold-ma = <405>;
-			qcom,fg-iterm-ma = <150>;
-			qcom,fg-chg-iterm-ma = <100>;
+			qcom,fg-iterm-ma = <180>;
+			qcom,fg-chg-iterm-ma = <130>;
 			qcom,pmic-revid = <&pmi8950_revid>;
-			qcom,fg-cutoff-voltage-mv = <3500>;
+			qcom,fg-cutoff-voltage-mv = <3400>;
+			qcom,vbat-estimate-diff-mv = <100>;
+			qcom,fg-cc-cv-threshold-mv = <4390>;
+			
 			qcom,cycle-counter-en;
 			qcom,capacity-learning-on;
 
@@ -528,6 +533,7 @@
 			qcom,hyb-thres = <625>;
 			qcom,sync-dly-us = <800>;
 			qcom,fs-curr-ua = <20000>;
+			qcom,en-cabc;
 			qcom,led-strings-list = [00 01];
 			qcom,en-ext-pfet-sc-pro;
 			qcom,cons-sync-write-delay-us = <1000>;
@@ -585,7 +591,7 @@
 						"torch0_trigger";
 				qcom,max-current = <200>;
 				qcom,id = <0>;
-				qcom,current = <120>;
+				qcom,current = <100>;
 			};
 
 			pmi8950_torch1: qcom,torch_1 {
@@ -596,6 +602,16 @@
 				qcom,max-current = <200>;
 				qcom,id = <1>;
 				qcom,current = <120>;
+			};
+
+			pmi8950_torch2: qcom,torch_2 {
+				label = "torch";
+				qcom,led-name = "flashlight";
+				qcom,default-led-trigger = 
+						"torch2_trigger";
+				qcom,max-current = <200>;
+				qcom,id = <1>;
+				qcom,current = <100>;
 			};
 
 			pmi8950_switch: qcom,switch {
@@ -625,11 +641,11 @@
 			qcom,wave-play-rate-us = <5263>;
 			qcom,actuator-type = "erm";
 			qcom,wave-shape = "square";
-			qcom,vmax-mv = <2000>;
+			qcom,vmax-mv = <2700>;
 			qcom,ilim-ma = <800>;
 			qcom,sc-deb-cycles = <8>;
 			qcom,int-pwm-freq-khz = <505>;
-			qcom,en-brake;
+			//qcom,en-brake;
 			qcom,brake-pattern = [03 03 00 00];
 			qcom,use-play-irq;
 			qcom,use-sc-irq;

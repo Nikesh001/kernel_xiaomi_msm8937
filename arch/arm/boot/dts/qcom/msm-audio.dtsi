@@ -232,10 +232,10 @@
 			qcom,msm-dai-q6-dev-id = <240>;
 		};
 
-		afe_loopback_tx: qcom,msm-dai-q6-afe-loopback-tx {
+		/*afe_loopback_tx: qcom,msm-dai-q6-afe-loopback-tx {
 			compatible = "qcom,msm-dai-q6-dev";
 			qcom,msm-dai-q6-dev-id = <24577>;
-		};
+		};*/
 
 		incall_record_rx: qcom,msm-dai-q6-incall-record-rx {
 			compatible = "qcom,msm-dai-q6-dev";
@@ -306,9 +306,9 @@
 	};
 
 	int_codec: sound {
-		status = "disabled";
+		status = "okay";
 		compatible = "qcom,msm8952-audio-codec";
-		qcom,model = "msm8952-snd-card-mtp";
+		qcom,model = "msm8920-sku7-snd-card";
 		reg = <0xc051000 0x4>,
 		      <0xc051004 0x4>,
 		      <0xc055000 0x4>,
@@ -320,22 +320,23 @@
 
 		qcom,msm-ext-pa = "primary";
 		qcom,msm-mclk-freq = <9600000>;
-		qcom,msm-mbhc-hphl-swh = <0>;
+		qcom,msm-mbhc-hphl-swh = <1>;
 		qcom,msm-mbhc-gnd-swh = <0>;
-		qcom,msm-hs-micbias-type = "external";
+		qcom,msm-hs-micbias-type = "internal";
+		ext-spk-amp-gpio = <0xa7 0x7c 0x0>;
+		headset-gpio = <0xa7 0x81 0x0>;
 		qcom,msm-micbias1-ext-cap;
 		qcom,audio-routing =
-			"RX_BIAS", "MCLK",
-			"SPK_RX_BIAS", "MCLK",
-			"INT_LDO_H", "MCLK",
-			"MIC BIAS External", "Handset Mic",
-			"MIC BIAS External2", "Headset Mic",
-			"MIC BIAS External", "Secondary Mic",
-			"AMIC1", "MIC BIAS External",
-			"AMIC2", "MIC BIAS External2",
-			"AMIC3", "MIC BIAS External",
-			"WSA_SPK OUT", "VDD_WSA_SWITCH",
-			"SpkrMono WSA_IN", "WSA_SPK OUT";
+			 "RX_BIAS", "MCLK", 
+			 "SPK_RX_BIAS", "MCLK", 
+			 "INT_LDO_H", "MCLK", 
+			 "MIC BIAS External", 
+			 "Handset Mic", "MIC BIAS Internal2", 
+			 "Headset Mic", "MIC BIAS External", 
+			 "Secondary Mic", "AMIC1", 
+			 "MIC BIAS External", "AMIC2", 
+			 "MIC BIAS Internal2", 
+			 "AMIC3", "MIC BIAS External";
 
 		qcom,hdmi-dba-codec-rx;
 
@@ -389,12 +390,12 @@
 		asoc-platform = <&pcm0>, <&pcm1>, <&pcm2>, <&voip>, <&voice>,
 				<&loopback>, <&compress>, <&hostless>,
 				<&afe>, <&lsm>, <&routing>, <&lpa>;
-		asoc-platform-names = "msm-pcm-dsp.0", "msm-pcm-dsp.1",
-				"msm-pcm-dsp.2", "msm-voip-dsp",
-				"msm-pcm-voice", "msm-pcm-loopback",
-				"msm-compress-dsp", "msm-pcm-hostless",
-				"msm-pcm-afe", "msm-lsm-client",
-				"msm-pcm-routing", "msm-pcm-lpa";
+		asoc-platform-names = "msm-pcm-dsp.0", "msm-pcm-dsp.1", 
+			"msm-pcm-dsp.2", "msm-voip-dsp", 
+			"msm-pcm-voice", "msm-pcm-loopback", 
+			"msm-compress-dsp", "msm-pcm-hostless", 
+			"msm-pcm-afe", "msm-lsm-client", 
+			"msm-pcm-routing", "msm-pcm-lpa";
 		asoc-cpu = <&dai_pri_auxpcm>,
 				<&dai_mi2s0>, <&dai_mi2s1>,
 				<&dai_mi2s2>, <&dai_mi2s3>,
@@ -407,20 +408,24 @@
 				<&afe_proxy_rx>, <&afe_proxy_tx>,
 				<&incall_record_rx>, <&incall_record_tx>,
 				<&incall_music_rx>, <&incall_music_2_rx>;
-		asoc-cpu-names = "msm-dai-q6-auxpcm.1",
-				"msm-dai-q6-mi2s.0", "msm-dai-q6-mi2s.1",
-				"msm-dai-q6-mi2s.2", "msm-dai-q6-mi2s.3",
-				"msm-dai-q6-mi2s.5", "msm-dai-q6-mi2s.6",
-				"msm-dai-q6-dev.16384", "msm-dai-q6-dev.16385",
-				"msm-dai-q6-dev.16386", "msm-dai-q6-dev.16387",
-				"msm-dai-q6-dev.16390", "msm-dai-q6-dev.16391",
-				"msm-dai-q6-dev.16392", "msm-dai-q6-dev.16393",
-				"msm-dai-q6-dev.12288", "msm-dai-q6-dev.12289",
-				"msm-dai-q6-dev.12292", "msm-dai-q6-dev.12293",
-				"msm-dai-q6-dev.224", "msm-dai-q6-dev.225",
-				"msm-dai-q6-dev.241", "msm-dai-q6-dev.240",
-				"msm-dai-q6-dev.32771", "msm-dai-q6-dev.32772",
-				"msm-dai-q6-dev.32773", "msm-dai-q6-dev.32770";
+		asoc-cpu-names = "msm-dai-q6-auxpcm.1", 
+			"msm-dai-q6-mi2s.0", "msm-dai-q6-mi2s.1", 
+			"msm-dai-q6-mi2s.2", "msm-dai-q6-mi2s.3", 
+			"msm-dai-q6-mi2s.5", "msm-dai-q6-mi2s.6", 
+			"msm-dai-q6-dev.16384", "msm-dai-q6-dev.16385", 
+			"msm-dai-q6-dev.16386", "msm-dai-q6-dev.16387", 
+			"msm-dai-q6-dev.16390", "msm-dai-q6-dev.16391", 
+			"msm-dai-q6-dev.16392", "msm-dai-q6-dev.16393", 
+			"msm-dai-q6-dev.12288", "msm-dai-q6-dev.12289", 
+			"msm-dai-q6-dev.12292", "msm-dai-q6-dev.12293", 
+			"msm-dai-q6-dev.224", "msm-dai-q6-dev.225", 
+			"msm-dai-q6-dev.241", "msm-dai-q6-dev.240", 
+			"msm-dai-q6-dev.32771", "msm-dai-q6-dev.32772", 
+			"msm-dai-q6-dev.32773", "msm-dai-q6-dev.32770";
+
+		qcom,cdc-us-euro-gpios;
+		//asoc-codec = <0x170 0x171 0x172>;
+		//asoc-codec-names = "msm-stub-codec.1", "cajon_codec", "msm-hdmi-dba-codec-rx";
 	};
 
 	ext_codec: sound-9335 {
@@ -542,6 +547,12 @@
 	};
 
 	i2c@78b6000 {
+		aw87319: aw87319@58 {
+			compatible = "awinic,aw87319_pa";
+			reg = <0x58>;
+			qcom,ext_pa_spk_aw87319_rst = <0xa7 0x7c 0x0>;
+		};
+
 		wsa881x_i2c_e: wsa881x-i2c-codec@e {
 			status = "disabled";
 			compatible = "qcom,wsa881x-i2c-codec";
@@ -617,6 +628,61 @@
 			status = "disabled";
 			compatible = "qcom,wsa881x-i2c-codec";
 			reg = <0x45>;
+		};
+
+		aw2013@45 {
+			compatible = "awinic,aw2013";
+			reg = <0x45>;
+			rgb_led-supply = <&pm8937_l10>;
+
+			red {
+				label = "red";
+				linux,default-trigger = "battery-red";
+				default-state = "off";
+				retain-state-suspended;
+			};
+
+			green {
+				label = "green";
+				linux,default-trigger = "battery-green";
+				default-state = "off";
+				retain-state-suspended;
+			};
+
+			blue {
+				label = "blue";
+				linux,default-trigger = "battery-blue";
+				default-state = "off";
+				retain-state-suspended;
+			};
+
+			white {
+				label = "white";
+				linux,default-trigger = "none";
+				default-state = "off";
+				retain-state-suspended;
+			};
+
+			yellow {
+				label = "yellow";
+				linux,default-trigger = "none";
+				default-state = "off";
+				retain-state-suspended;
+			};
+
+			cyan {
+				label = "cyan";
+				linux,default-trigger = "none";
+				default-state = "off";
+				retain-state-suspended;
+			};
+
+			purple {
+				label = "purple";
+				linux,default-trigger = "none";
+				default-state = "off";
+				retain-state-suspended;
+			};
 		};
 	};
 

@@ -12,7 +12,7 @@
  */
 
 #include "msm8937-pinctrl.dtsi"
-#include "msm8937-camera-sensor-qrd.dtsi"
+//#include "msm8937-camera-sensor-qrd.dtsi"
 
 &soc {
 	gpio_keys {
@@ -29,6 +29,10 @@
 			linux,code = <115>;
 			debounce-interval = <15>;
 		};
+	};
+
+	boardinfo {
+		compatible = "wt:boardinfo";
 	};
 };
 
@@ -90,7 +94,8 @@
 	qcom,vdd-io-lpm-sup;
 	qcom,vdd-io-voltage-level = <1800000 1800000>;
 	qcom,vdd-io-current-level = <200 325000>;
-
+	qcom,vdd-always-on;
+	
 	pinctrl-names = "active", "sleep";
 	pinctrl-0 = <&sdc1_clk_on &sdc1_cmd_on &sdc1_data_on &sdc1_rclk_on>;
 	pinctrl-1 = <&sdc1_clk_off &sdc1_cmd_off &sdc1_data_off &sdc1_rclk_off>;
